@@ -1,0 +1,38 @@
+﻿@model List<Domain.ViewModels.TopProductSalesViewModel>
+
+@{
+    ViewData["Title"] = "Top 10 Products per Store";
+}
+
+<h2 class="mb-4">Top 10 Products per Store</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Store</th>
+            <th>Product</th>
+            <th>Total Quantity</th>
+            <th>Total Revenue</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.StoreName</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.TotalQuantity</td>
+                    <td>@item.TotalRevenue.ToString("C")</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center text-muted">No sales data available.</td>
+            </tr>
+        }
+    </tbody>
+</table>

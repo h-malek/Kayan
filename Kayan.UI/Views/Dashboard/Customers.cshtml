@@ -1,0 +1,78 @@
+﻿@model List<Domain.ViewModels.CustomerViewModel>
+
+@{
+    ViewData["Title"] = "Customer List";
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+    string first = ViewBag.First as string;
+    string last = ViewBag.Last as string;
+    string email = ViewBag.Email as string;
+    string phone = ViewBag.Phone as string;
+}
+
+<h2>Customer List</h2>
+
+<form asp-action="Customers" asp-controller="Dashboard" method="get">
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <input type="text" name="first" class="form-control" placeholder="First Name" value="@first" />
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="last" class="form-control" placeholder="Last Name" value="@last" />
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="email" class="form-control" placeholder="Email" value="@email" />
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="phone" class="form-control" placeholder="Phone" value="@phone" />
+        </div>
+        <div class="col-md-12 mt-2">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>@customer.CustomerId</td>
+                <td>@customer.FullName</td>
+                <td>@customer.Email</td>
+                <td>@customer.Phone</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (totalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Customers"
+                       asp-controller="Dashboard"
+                       asp-route-page="@i"
+                       asp-route-first="@first"
+                       asp-route-last="@last"
+                       asp-route-email="@email"
+                       asp-route-phone="@phone">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
